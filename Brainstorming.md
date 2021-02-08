@@ -27,3 +27,7 @@ Antagelser:
 Håndtering av hall-ordre:
 * PtP: Alle heisene må snakke sammen og bli enige om hvem som skal ta ordren. Antall meldinger har kompleksistet n!
 * Server: Server må tildele ordrer. Antall meldinger har kompleksistet
+
+Nyttige ressurser:
+* https://elixir-lang.org/blog/2013/08/08/elixir-design-goals/
+* https://elixir-lang.org/getting-started/introduction.html
