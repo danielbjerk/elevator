@@ -1,7 +1,9 @@
 Gruppe 45, labplass 6
 
 Code conventions:
-* 
+* Commits på engelsk og i preteritum, "Added penis mmodule"
+* Følge elixir-conventions
+* Feature-branching, master funker alltid
 
 Server
 * +Følger med om heisene gjør jobben sin.
