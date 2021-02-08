@@ -1,3 +1,5 @@
+Gruppe 45, labplass 6
+
 Code conventions:
 .
 
