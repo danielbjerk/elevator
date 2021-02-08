@@ -31,3 +31,4 @@ Håndtering av hall-ordre:
 Nyttige ressurser:
 * https://elixir-lang.org/blog/2013/08/08/elixir-design-goals/
 * https://elixir-lang.org/getting-started/introduction.html
+* https://github.com/TTK4145/Project-resources
