@@ -13,8 +13,17 @@ PtP
 * +Elegant
 * -Kan potensielt bli minst effektivt
 
+Subnetting av etajene
+
 Generelt
 * Heisene bør ha tilgang til sin egen kø
 * Kan ha hybrid-greie, heisen tenker selv 
 
-Heisen er: lokale aktører som kan lese lokale inputs og få tilsendt inputs. Kan anta at førstnevnte fungerer 
+Heisen er: lokale aktører som kan lese lokale inputs og få tilsendt inputs. Kan anta at førstnevnte fungerer og at sistnevnte kan slutte å fungere whenever
+
+Antagelser:
+* Antar hall call-knappene fungerer som en vanlig heis, dvs. at hall call-knappene deles mellom alle heisene.
+
+Håndtering av hall-ordre:
+* PtP: Alle heisene må snakke sammen og bli enige om hvem som skal ta ordren. Antall meldinger har kompleksistet n!
+* Server: Server må tildele ordrer. Antall meldinger har kompleksistet
