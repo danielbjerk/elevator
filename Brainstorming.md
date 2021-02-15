@@ -15,7 +15,7 @@ PtP
 * +Elegant
 * -Kan potensielt bli minst effektivt
 
-Subnetting av etajene
+Subnetting av etasjene?
 
 Generelt
 * Heisene bør ha tilgang til sin egen kø
@@ -25,6 +25,8 @@ Heisen er: lokale aktører som kan lese lokale inputs og få tilsendt inputs. Ka
 
 Antagelser:
 * Antar hall call-knappene fungerer som en vanlig heis, dvs. at hall call-knappene deles mellom alle heisene.
+* Antar at server alltid fungerer.
+* Lager heis for et realistisk system.
 
 Håndtering av hall-ordre:
 * PtP: Alle heisene må snakke sammen og bli enige om hvem som skal ta ordren. Antall meldinger har kompleksistet n!
@@ -35,3 +37,14 @@ Nyttige ressurser:
 * https://elixir-lang.org/getting-started/introduction.html
 * https://github.com/TTK4145/Project-resources
 * https://github.com/TTK4145/Simulator-v2
+
+Går for server-approach.
+Heis' state:
+* Hvor den er
+* Hva retning den kjører
+* Current target (top of queue)
+* Kø med etasjer
+
+Costfunction
+* Heiser som ikke gjør noe bør vektes lavere enn heiser som har lang kø
+* Heiser skal ikke trenge å snu før det er absolutt nødvendig (tar bare ordre som er i samme retning som vi beveger oss i)
