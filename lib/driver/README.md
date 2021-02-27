@@ -12,4 +12,4 @@ If you are using Mix as you Elixir build tool (which you really should), add the
 ### Setting the floor indicator
 `iex(1)> {:ok, driver_pid} = Driver.start_link([])`  
 `{:ok, #PID<x.xxx.x>}`  
-`iex(2)> Driver.set_floor_indicator(2)`
+`iex(2)> Driver.set_floor_indicator(2)
