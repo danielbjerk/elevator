@@ -48,3 +48,9 @@ Heis' state:
 Costfunction
 * Heiser som ikke gjør noe bør vektes lavere enn heiser som har lang kø
 * Heiser skal ikke trenge å snu før det er absolutt nødvendig (tar bare ordre som er i samme retning som vi beveger oss i)
+
+State til elevator:
+* Hvilken retning den beveger seg i
+* Hvilken etasje den var i sist 
+*   Disse to sammen gir plassering
+* Lokal Kø
