@@ -22,3 +22,5 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 elevator-*.tar
 
+# Simulator is never changed and only compiled, so may be ignored
+/Simulator/
