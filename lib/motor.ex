@@ -15,8 +15,10 @@ defmodule Motor do
     end
   end
 
-  def motor_begin_driving(order) do
-
+  defp motor_begin_driving(order) do
+      Driver.set_motor_direction(order)
   end
 
+  defp send_status_to_gps(pid) do
+    
 end
