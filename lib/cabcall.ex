@@ -1,14 +1,13 @@
 defmodule CabCall do
     @moduledoc """
-    Takes order from inside elevator. This is only a an integrer, the floor number.
+    Module for starting and recieving orders from inside the elevator.
     """
-    import Constants
 
     def init(pid_parent) do
         start_all_buttons(pid_parent,Constants.number_of_floors)
     end
 
-    defp start_all_buttons(_pid_parent, 0) do
+    defp start_all_buttons(_pid_parent, -1) do
         :ok
     end
     defp start_all_buttons(pid_parent,next_floor) do
@@ -21,7 +20,6 @@ defmodule HWButton do
     @moduledoc """
     Module for implementing "interrupts" from the elevator into elixir in the form of standardized messages
     """
-    import Driver
 
     def start_reporting(pid_parent, button_type, floor) do
         Task.start(fn -> state_change_reporter(pid_parent, button_type, floor, :init) end)
@@ -36,6 +34,7 @@ defmodule HWButton do
     defp state_change_reporter(pid_parent, button_type, floor, last_state) do
         new_state = Driver.get_order_button_state(floor, button_type)
         if new_state !== last_state, do: send(pid_parent, {:hw_button, {button_type, floor, new_state}, self()})
+        if new_state == 1, do: Driver.set_order_button_light(button_type, floor, :on) # Dette virker lite FP..
         state_change_reporter(pid_parent, button_type, floor, new_state)
     end
 end
