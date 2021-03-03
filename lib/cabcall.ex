@@ -34,7 +34,6 @@ defmodule HWButton do
     defp state_change_reporter(pid_parent, button_type, floor, last_state) do
         new_state = Driver.get_order_button_state(floor, button_type)
         if new_state !== last_state, do: send(pid_parent, {:hw_button, {button_type, floor, new_state}, self()})
-        if new_state == 1, do: Driver.set_order_button_light(button_type, floor, :on) # Dette virker lite FP..
         state_change_reporter(pid_parent, button_type, floor, new_state)
     end
 end
