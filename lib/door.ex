@@ -1,17 +1,13 @@
 defmodule Door do
   @moduledoc """
-  Opens door, and closes it after @door_wait_for_obstruction_time_ms as long as obstruction isn't active.
+  Opens door, and closes it after door_wait_for_obstruction_time_ms as long as obstruction isn't active.
   Call Door.door_open_wait_until_closing() to do this, man.
   """
-
-  @door_wait_for_obstruction_time_ms 5000
-
-  import Driver
 
   def door_open_wait_until_closing() do
     door_open()
 
-    :timer.sleep(@door_wait_for_obstruction_time_ms)
+    :timer.sleep(Constants.door_wait_for_obstruction_time_ms)
     :door_free_to_close = door_wait_until_free_to_close()
 
     door_close()
