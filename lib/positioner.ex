@@ -1,6 +1,6 @@
 defmodule Positioner do
 
-    def notify_on_position_change(parent_pid, old_position) do  # Notifies parent_pid of position where position is of type {:moving_up/:moving_down/:stationary, floor}.
+    defp notify_on_position_change(parent_pid, old_position) do  # Notifies parent_pid of position where position is of type {:moving_up/:moving_down/:stationary, floor}.
         case old_position do
             {old_floor, old_direction} when old_floor != :unknown ->    # Position (floor and direction) is known.
                 send(parent_pid, old_position)
@@ -17,9 +17,11 @@ defmodule Positioner do
     end       
 
     def start_positioner(parent_pid) do
-        positioner_id = spawn(fn -> notify_on_position_change(parent_pid, {:stationary, 0}) end)
-        #Registry.start_link({positioner_id, "positioner"})
-        Floor.start_listening_for_floor_changes(positioner_id, 0)
+        spawn(fn -> notify_on_position_change(parent_pid, {0, :stationary}) end)
+        |> Process.register(:positioner)
+
+        Floor.start_listening_for_floor_changes(:positioner, 0)
+
     end
 
 
