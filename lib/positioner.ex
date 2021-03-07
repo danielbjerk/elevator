@@ -6,9 +6,28 @@ defmodule Positioner do
             direction when direction in [:up, :down, :stop] ->
                 send(parent_pid, {old_floor, direction})  
                 |> notify_on_position_change(parent_pid)
-            floor ->
+
+            floor when is_number(floor) ->
                 send(parent_pid, {floor, old_direction})  
                 |> notify_on_position_change(parent_pid)
+    
+            :between_floors ->
+                case {old_direction, old_floor} do
+                    {:up, old_floor} ->
+                        floor = old_floor + 0.5
+                        send(parent_pid, {floor, old_direction})
+                        |> notify_on_position_change(parent_pid)
+                    {:down, old_floor} ->
+                        floor = old_floor - 0.5
+                        send(parent_pid, {floor, old_direction})
+                        |> notify_on_position_change(parent_pid)
+                    {:stop, old_floor} ->
+                        send(parent_pid, {old_floor, old_direction})
+                        |> notify_on_position_change(parent_pid)
+                end
+
+            {:invalid, _floor} ->
+                IO.puts("Invalid floor received")
         end
     end
 
