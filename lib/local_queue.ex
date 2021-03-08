@@ -1,4 +1,37 @@
 defmodule LocalQueue do
+  use Agent
+
+  def start_link(_opts) do
+    {:ok, agent} = Agent.start_link(fn -> [] end)
+    Process.register(agent, :local_queue)
+  end
+
+  def add_order_to_queue(order) do
+    Agent.update(:local_queue, LocalQueue, what_to_call_function, [order])
+  end
+
+  def add_order_to_queue(queue, _redundant_order, :dont_add) do
+    queue
+  end
+  def add_order_to_queue(queue, new_order, index) do
+    List.insert_at(queue, new_order, index)
+  end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   def init(parent_pid) do
     {:ok, pid} = Task.start(fn -> update_queue([], parent_pid))
     Process.register(pid, :local_queue)
