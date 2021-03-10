@@ -2,19 +2,33 @@ defmodule LocalQueue do
   use Agent
 
   def start_link(_opts) do
-    {:ok, agent} = Agent.start_link(fn -> [] end)
+    {:ok, agent} = Agent.start_link(LocalQueue, :generate_empty_queue, [])
     Process.register(agent, :local_queue)
   end
 
-  def add_order_to_queue(order) do
-    Agent.update(:local_queue, LocalQueue, what_to_call_function, [order])
+  defp generate_empty_queue do
+    Enum.map(0..Constants.number_of_floors, fn floor -> [{floor, :hall_up, :no_order}, {floor, :hall_down, :no_order}, {floor, :cab, :no_order}] end)
+  end
+  """
+  def add_order(order) do
+    Agent.update(:local_queue, LocalQueue, :replace_order, [order])
   end
 
-  def add_order_to_queue(queue, _redundant_order, :dont_add) do
-    queue
+  def remove_orders_at_floor(floor) do
+    Agent.update(:local_queue, LocalQueue, replace_order, {floor, _})
   end
-  def add_order_to_queue(queue, new_order, index) do
-    List.insert_at(queue, new_order, index)
+  """
+
+  def replace_order(queue, order) do
+    {floor, type, order_here?} = order
+    orders_at_floor = Enum.at(queue, floor)
+    orders_at_floor_updated = Enum.map(orders_at_floor, fn {floor, type, _order_here?} -> order end)
+    List.replace_at(queue, floor, orders_at_floor_updated)
+  end
+
+  def order_at_floor?(floor) do
+    orders_at_floor = Agent.get(:local_queue, fn queue -> Enum.at(queue, floor) end)
+    ({floor, :hall_up, :order} in orders_at_floor) or ({floor, :hall_down, :order} in orders_at_floor) or ({floor, :cab, :order} in orders_at_floor)
   end
 
 
@@ -29,11 +43,11 @@ defmodule LocalQueue do
 
 
 
-
+"""
 
 
   def init(parent_pid) do
-    {:ok, pid} = Task.start(fn -> update_queue([], parent_pid))
+    {:ok, pid} = Task.start(fn -> update_queue([], parent_pid) end)
     Process.register(pid, :local_queue)
   end
 
@@ -81,4 +95,6 @@ defmodule LocalQueue do
   def add_order_to_queue(queue, new_order, index) do
     List.insert_at(queue, new_order, index)
   end
+
+  """
 end
