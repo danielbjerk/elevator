@@ -7,7 +7,7 @@ defmodule Elevator do
     message_handler(:init_floor, :init_floor)
   end
 
-  def message_handler(target_floor, current_floor) do
+  defp message_handler(target_floor, current_floor) do
 
     receive do        
         {:queue, target_floor} ->  send(:actuator, {:actuator, {:motor_order, calculate_target_vs_current(target_floor, current_floor)}, self()})
