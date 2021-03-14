@@ -4,7 +4,8 @@ defmodule Elevator do
   """
 
   def init() do 
-    message_handler(:init_floor, :init_floor)
+    {:ok, pid} = Task.start(fn -> message_handler(:init_floor, :init_floor) end) 
+    Process.register(pid, :elevator)
   end
 
   defp message_handler(target_floor, current_floor) do
