@@ -1,18 +1,22 @@
-defmodule SUPERVISOR do
-  @moduledoc """
-  Documentation for SUPERVISOR.
-  """
+defmodule KV.Supervisor do
+  use Supervisor
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> SUPERVISOR.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def start_link(opts) do
+    Supervisor.start_link(__MODULE__, :ok, opts)
   end
-end
+
+  @impl true
+  def init(:ok) do
+    children = [
+      {KV.Registry, name: KV.Registry},
+      Driver,
+      {Actuator, name: Actuator},
+      {Positioner, name: Positioner},
+      #{CabCall, pid_parent}
+      #{HallCall, pid_parent}
+    ]
+
+    Supervisor.init(children, strategy: :one_for_one)
+  end
+
+end 

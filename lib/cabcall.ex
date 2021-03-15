@@ -3,6 +3,13 @@ defmodule CabCall do
     Module for starting and recieving orders from inside the elevator.
     """
 
+    def child_spec(pid_parent) do
+        %{
+          id: CabCall, 
+          start: {CabCall, :init, [pid_parent]}
+        }
+    end
+
     def init(pid_parent) do
         start_all_buttons(pid_parent,Constants.number_of_floors)
     end

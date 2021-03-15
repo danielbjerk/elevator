@@ -3,8 +3,15 @@ defmodule HallCall do
     Module for starting and recieving orders from outside the elevator.
     """
 
-    def init(pid_parent) do
-      start_all_buttons(pid_parent,Constants.number_of_floors)
+  def child_spec(pid_parent) do
+    %{
+      id: HallCall, 
+      start: {HallCall, :init, [pid_parent]}
+    }
+  end
+
+  def init(pid_parent) do
+    start_all_buttons(pid_parent,Constants.number_of_floors)
   end
 
   defp start_all_buttons(_pid_parent, -1) do

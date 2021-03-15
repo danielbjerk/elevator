@@ -1,9 +1,17 @@
 defmodule Positioner do
 
+    def child_spec(pid_parent) do
+        %{
+          id: Positioner, 
+          start: {Positioner, :start_positioner, [pid_parent]}
+        }
+    end
+
     defp notify_on_position_change(old_position, parent_pid) do  # Notifies parent_pid of position where position is of type {:up/:down/:stop, floor}.
         {old_floor, old_direction} = old_position
         receive do
             direction when direction in [:up, :down, :stop] ->
+                IO.puts("Aksel")
                 send(parent_pid, {old_floor, direction})  
                 |> notify_on_position_change(parent_pid)
 
@@ -32,11 +40,11 @@ defmodule Positioner do
     end
 
     def start_positioner(parent_pid) do
-        spawn(fn -> notify_on_position_change({0, :stop}, parent_pid) end)
-        |> Process.register(:positioner)
+        {:ok, pid} = Task.start(fn -> notify_on_position_change({0, :stop}, parent_pid) end)
+        Process.register(pid, :positioner)
 
         Floor.start_listening_for_floor_changes(:positioner, 0)
-
+        {:ok, pid}
     end
 
 end

@@ -3,7 +3,17 @@ defmodule Actuator do
   Module for handling orders from elevator related to motor and door.
   """
 
+  def child_spec(pid_parent) do
+    %{
+      id: Actuator, 
+      start: {Actuator, :init, [pid_parent]}
+    }
+  end
+
   def init(pid_parent) do
+    IO.puts("pid_parent")
+    IO.inspect(pid_parent)
+    IO.puts("pid_parent")
     {:ok, pid} = Task.start(fn -> handle_messages(pid_parent) end)
   end
 
